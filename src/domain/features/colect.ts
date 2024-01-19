@@ -1,15 +1,19 @@
+import { User } from "../entities/user";
 import { reader } from "../providers/reader";
 type Input = string
 type Output = string
-type Colector = (Input: Input) => Promise<Output>
+export type Colector = () => Promise<Output>
 type SetupProps = {
-    reader: reader
+    reader: reader,
+    user: User
 }
 type Setup = (props: SetupProps) => Colector
 
-const SetupColector: Setup = ({ reader }: SetupProps) => async (input) => {
-    var answerArray: string[] = [];
-    answerArray.push(await reader.exec("Digite seu Username:"));
-    answerArray.push(await reader.exec("Digite seu Nome:"));
-    answerArray.push(await reader.exec("Digite seu Email:"));
+export const SetupColector: Setup = ({ reader, user }: SetupProps) => async () => {
+    var answerArray: object[] = [];
+    answerArray.push(user.constructor(
+        await reader.exec("Digite seu Username:"),
+        await reader.exec("Digite seu Nome:"),
+        await reader.exec("Digite seu Email:")
+    ))
 }
