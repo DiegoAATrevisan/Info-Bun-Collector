@@ -1,7 +1,7 @@
 import * as readline from 'readline';
-import { reader } from '../../domain/providers/reader';
+import { Reader } from '../../domain/providers/reader';
 
-export class DefaultReader implements reader {
+export class DefaultReader implements Reader {
     public exec(question: string): Promise<string> {
         const rl = readline.createInterface({
             input: process.stdin,

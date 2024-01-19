@@ -1,10 +1,10 @@
 import { User } from "./src/domain/entities/user";
-import { Colector, SetupColector } from "./src/domain/features/colect";
+import { SetupSignup, Signup } from "./src/domain/features/signup";
 import { DefaultReader } from "./src/infra/services/reader";
 
-const colector: Colector = SetupColector({
+const signup: Signup = SetupSignup({
     reader: new DefaultReader,
-    user: new User
 })
 
-console.log(await colector());
+await signup({});
+await signup({});
