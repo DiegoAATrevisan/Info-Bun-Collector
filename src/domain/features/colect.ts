@@ -8,6 +8,7 @@ type SetupProps = {
     user: User
 }
 type Setup = (props: SetupProps) => Colector
+console.log("teste");
 
 export const SetupColector: Setup = ({ reader, user }: SetupProps) => async () => {
     var answerArray: object[] = [];
