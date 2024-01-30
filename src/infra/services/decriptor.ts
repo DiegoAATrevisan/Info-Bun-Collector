@@ -1,4 +1,3 @@
-import { resolve } from "bun";
 import { User } from "../../domain/entities/user";
 import { Decriptor } from "../../domain/providers/decriptor";
 
@@ -20,7 +19,7 @@ export class DefaultDecriptor implements Decriptor {
                 return e === 'A' ? '9' : alphabetNumber[alphabetNumber.indexOf(e) - 1]
             });
             let joinPass = catchPass.join('');
-            resolve(joinPass).
+            resolve(joinPass);
         });
     }
 }

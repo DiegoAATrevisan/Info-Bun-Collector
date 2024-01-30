@@ -1,4 +1,3 @@
-import { resolve } from "bun";
 import { Cypher } from "../../domain/providers/cypher";
 
 export class DefaultCypher implements Cypher {
