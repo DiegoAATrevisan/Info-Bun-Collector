@@ -1,9 +1,9 @@
 import { resolve } from "bun";
-import { Cypher } from "../../domain/providers/cypher";
+import { User } from "../../domain/entities/user";
+import { Decriptor } from "../../domain/providers/decriptor";
 
-export class DefaultCypher implements Cypher {
-
-    public exec(response: string): Promise<string> {
+export class DefaultDecriptor implements Decriptor {
+    public exec(user: User): Promise<string> {
         let alphabetNumber = [
             'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
             'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
@@ -16,12 +16,11 @@ export class DefaultCypher implements Cypher {
 
 
         return new Promise<string>((resolve) => {
-            let splitedPass = response.split("").map(e => {
-                return e === '9' ? 'A' : alphabetNumber[alphabetNumber.indexOf(e) + 1]
+            let catchPass = user.password.split("").map(e => {
+                return e === 'A' ? '9' : alphabetNumber[alphabetNumber.indexOf(e) - 1]
             });
-            let encryptedPass = splitedPass.join('');
-            resolve(encryptedPass);
-        })
+            let joinPass = catchPass.join('');
+            resolve(joinPass).
+        });
     }
-
 }
