@@ -5,7 +5,7 @@ export const setupSignupRoute = () => {
     const app = new Elysia()
         .decorate("signupService", signupService)
         .post("/signup", async ({ body, signupService }) => {
-            await signupService(body)
+            return await signupService(body)
         }, {
             body: t.Object({
                 username: t.String(),

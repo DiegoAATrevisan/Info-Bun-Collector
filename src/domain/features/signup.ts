@@ -1,30 +1,24 @@
 import { User } from "../entities/user";
 import { Cypher } from "../providers/cypher";
-import { Decriptor } from "../providers/decriptor";
+import { CreateUserRepository } from "../repositories/create-user-repository";
 type Input = User
 type Output = Pick<User, "email">
 export type Signup = (input: Input) => Promise<Output>
 type SetupProps = {
     cypher: Cypher
-    decriptor: Decriptor
+    repository: CreateUserRepository
 }
 type Setup = (props: SetupProps) => Signup
-var answerArray: User[] = [];
 
-export const SetupSignup: Setup = ({ cypher, decriptor }: SetupProps) => async (input) => {
-    
+export const SetupSignup: Setup = ({ cypher, repository }: SetupProps) => async (input) => {
+
     let user: User = {
         username: input.username,
         email: input.email,
         password: await cypher.exec(input.password)
     }
-    answerArray.push(user)
-    console.log(answerArray.map(e => ({
-        ...e,
-        decriptedPassword: decriptor.exec(user)
-    })));
+    let response = await repository.create(user);
 
-
-    return { email: user.email }
+    return { email: response.email }
 
 }
