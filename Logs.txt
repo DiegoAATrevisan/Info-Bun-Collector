@@ -1,0 +1,1 @@
+Received a request at /signup with the content {"username":"Diego","email":"EMAIL@teste.com","password":"159357"}

@@ -1,12 +1,14 @@
 import { User } from "../../domain/entities/user";
 import { CreateUserRepository } from "../../domain/repositories/create-user-repository";
+import { FindUserRepository } from "../../domain/repositories/find-user-repository";
 import { LoadUsersRepository } from "../../domain/repositories/load-users-repository";
-import { CreateUserAdapater } from "./adapters/types/create-user-adapter";
+import { CreateUserAdapter } from "./adapters/types/create-user-adapter";
+import { FindUserAdapter } from "./adapters/types/find-user-adapter";
 import { LoadUserAdapter } from "./adapters/types/load-user-adapter";
 
-export class UsersRepository implements LoadUsersRepository, CreateUserRepository {
+export class UsersRepository implements LoadUsersRepository, CreateUserRepository, FindUserRepository {
     constructor(
-        private readonly adapter: LoadUserAdapter & CreateUserAdapater,
+        private readonly adapter: LoadUserAdapter & CreateUserAdapter & FindUserAdapter,
     ) { }
 
     public async load(): Promise<User[]> {
@@ -24,6 +26,15 @@ export class UsersRepository implements LoadUsersRepository, CreateUserRepositor
         await this.adapter.create(user)
         return {
             email: user.email
+        }
+    }
+
+    public async findByEmail(user: Pick<User, "email">): Promise<User> {
+        try {
+            const findedUser = await this.adapter.find("email", user.email)
+            return findedUser
+        } catch (error) {
+            throw new Error(`Error on finding the user by email ${user.email}`)
         }
     }
 }
